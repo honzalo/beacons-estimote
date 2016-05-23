@@ -12,20 +12,31 @@ For Demo create a Cordova project or use Evothing Studio.
 
 # Usage
 
-beacons-estimote is a web component for ranging Esitmote beacons. Range for all beacons automatically or look for a particular region, put the component in any part of your application:
+beacons-estimote is a web component for ranging Esitmote beacons. Range for all beacons automatically or look for a particular region.
+
+### Install the component
+
+Using Bower:
+
+```sh
+bower install honzalo/beacons-estimote
+```
+
+### Import the component
+
+Make sure to include the Web components polyfill library and to import the element:
+
+```html
+<script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<link rel="import" href="bower_components/beacons-estimote/beacons-estimote.html">
+```
+
+### Use the component
+
+In any part of your application inlcude:
 
 ```html
 <beacons-estimote beacons="{{beacons}}" auto></beacons-estimote>
-```
-
-Mare sure to include the web components polyfill and to import the component:
-
-```html
-<script src="webcomponents-lite.js"></script>
-```
-
-```html
-<link rel="import" href="beacons-estimote.html">
 ```
 
 
