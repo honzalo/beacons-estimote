@@ -1,0 +1,144 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+A custom element wrapper for the [Estimotes Javascript SDK (Cordova plugin)](https://github.com/evothings/phonegap-estimotebeacons).
+A custom element to identify nearby Beacons. The element retrevies an array of all
+beacons returned in the specified region. Default region is {} which will be search
+for every beacon out there. The auto property starts the search automatically, or it
+can be triggered by executing the proper methods.
+
+Example:
+
+    <beacons-estimote beacons="{{beacons}}" auto></beacons-estimote>
+
+Note: Demo will not work if you don't use the the element on a phone, with cordova, and
+the [estimotes plugin](https://github.com/evothings/phonegap-estimotebeacons) is installed.
+Please check [Evothings Studio](https://evothings.com) for testing the component.
+@demo demo/index.html
+-->
+
+<script>
+  Polymer({
+    is: 'beacons-estimote',
+
+    /**
+     * Fired when a beacons have been found.
+     *
+     * @event beacons-found
+     */
+    /**
+     * Fired when search is stopped.
+     *
+     * @event beacons-stopped
+     */
+    /** Fired when the estimotes Cordova plugin is not found.
+     *
+     * @event estimote-missing
+     */
+
+    properties: {
+      /**
+      * Array of beacons in close range
+      */
+      beacons: {
+        type: Array,
+        notify: true,
+        value: []
+      },
+
+      /**
+      * Region specified - Empty region matches all beacons.
+      */
+      region: {
+        type: Object,
+        value: {}, // Empty region matches all beacons.
+        notify: true
+      },
+
+      /**
+      * Length of time in milliseconds to perform another check.
+      */
+     interval: {
+       type: Number,
+       value: 0,
+       notify: true
+     },
+
+       /**
+       * True if a request is in progress.
+       */
+      loading: {
+        type: Boolean,
+        value: false,
+        notify: true
+      },
+
+      /**
+       * If true, automatically performs a Beacon search.
+       */
+      auto: {
+        type: Boolean,
+        value: false
+      },
+    },
+
+    observers: [
+      '_requestOptionsChanged(region, interval, auto)'
+    ],
+
+    _requestOptionsChanged: function() {
+      this.debounce('generate-request', function() {
+        if (this.auto) {
+            this.generateRequest();
+        }
+      }, this.interval);
+    },
+
+    _onBeaconsRanged: function(beaconInfo) {
+      this.loading = false;
+      this.beacons = [];
+      this.beacons = beaconInfo.beacons;
+      this.fire('beacons-found');
+    },
+
+    _onBecansStopped: function() {
+      this.loading = false;
+      this.beacons = [];
+      this.fire('beacons-stopped');
+    },
+
+    _onError: function(errorMessage) {
+      this.loading = false;
+    },
+
+    /**
+     * Performs an Beacon ranging check.
+     *
+     */
+    generateRequest: function() {
+      this.loading = true;
+      // Request permission from user to access location info.
+  		// This is needed on iOS 8.
+  		estimote.beacons.requestAlwaysAuthorization();
+  		// Start ranging beacons.
+      estimote.beacons.startRangingBeaconsInRegion(
+        this.region,
+        this._onBeaconsRanged.bind(this),
+        this._onError.bind(this));
+    },
+
+    /**
+     * Stops current beacon search.
+     *
+     */
+    disconnect: function() {
+      this.loading = false;
+      estimote.beacons.stopRangingBeaconsInRegion (
+        this.region,
+        this._onBecansStopped.bind(this),
+        this._onError.bind(this));
+    }
+
+
+  });
+</script>

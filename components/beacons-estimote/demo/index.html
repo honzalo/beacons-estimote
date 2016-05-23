@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+  <head>
+    <title>beacons-estimote demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+
+    <link rel="import" href="../beacons-estimote.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+    </style>
+  </head>
+  <body>
+
+    <div class="vertical-section-container centered">
+      <h3>Basic beacons-estimote Demo</h3>
+      <demo-snippet>
+        <template is="dom-bind" id="app">
+          <template is="dom-if" if="{{missingSDK}}">
+          You are missing the Estimotes Cordova Plugin. Please install the plugin to see the demo in action.
+          </template>
+          <beacons-estimote auto beacons="{{beacons}}"></beacons-estimote>
+          
+          <template is="dom-repeat" items="[[beacons]]">
+            <div>
+              <h3>Beacon found!:</h3>
+              <span>Identifier: </span><span>{{item.proximityUUID}}</span><br />
+              <span>Major: </span><span>{{item.major}}</span><br />
+              <span>Minor: </span><span>{{item.minor}}</span><br />
+              <span>Proximity: </span><span>{{beacon.proximity}}</span><br />
+              <span>Distance: </span><span>{{beacon.distance}}</span><br />
+            </div>
+            <br />
+          </template>
+        </template>
+      </demo-snippet>
+    </div>
+
+  </body>
+  <script>
+    var app = document.querySelector('#app');
+    app.missingSDK = false;
+    
+    document.addEventListener('estimote-missing', function() { app.missingSDK = true;})
+  </script>
+</html>

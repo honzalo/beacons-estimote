@@ -1,0 +1,25 @@
+{
+  "name": "beacons-estimote",
+  "description": "A custom element wrapper for the Estimotes Javascript SDK (Cordova plugin)",
+  "main": "beacons-estimote.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.4.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
+    "web-component-tester": "^4.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+  },
+  "homepage": "https://github.com/honzalo/beacons-estimote",
+  "_release": "c1870b8da5",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "c1870b8da582284b5830684c75d8d9006966a6c8"
+  },
+  "_source": "git://github.com/honzalo/beacons-estimote.git",
+  "_target": "master",
+  "_originalSource": "honzalo/beacons-estimote",
+  "_direct": true
+}
